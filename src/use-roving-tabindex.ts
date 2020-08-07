@@ -12,8 +12,14 @@ type ReturnType = [
 
 enum TabDirection {
   Next,
-  Previous
+  Previous,
+  Up,
+  Down
 }
+
+// movement when using up and down arrow keys
+// TODO: get as prop instead
+const VERTICAL_SKIP = 4;
 
 // domElementRef:
 //   - a React DOM element ref of the DOM element that is the focus target
@@ -73,9 +79,9 @@ export default function useRovingTabIndex(
       context.state.direction === "both"
     ) {
       if (event.key === "ArrowUp") {
-        return TabDirection.Previous;
+        return TabDirection.Up;
       } else if (event.key === "ArrowDown") {
-        return TabDirection.Next;
+        return TabDirection.Down;
       }
     }
     return null;
@@ -89,13 +95,37 @@ export default function useRovingTabIndex(
       if (direction === TabDirection.Previous) {
         context.dispatch({
           type: ActionTypes.TAB_TO_PREVIOUS,
-          payload
+          payload: {
+            ...payload,
+            skipSize: 1
+          }
         });
         event.preventDefault();
       } else if (direction === TabDirection.Next) {
         context.dispatch({
           type: ActionTypes.TAB_TO_NEXT,
-          payload
+          payload: {
+            ...payload,
+            skipSize: 1
+          }
+        });
+        event.preventDefault();
+      } else if (direction === TabDirection.Up) {
+        context.dispatch({
+          type: ActionTypes.TAB_TO_PREVIOUS,
+          payload: {
+            ...payload,
+            skipSize: VERTICAL_SKIP
+          }
+        });
+        event.preventDefault();
+      } else if (direction === TabDirection.Down) {
+        context.dispatch({
+          type: ActionTypes.TAB_TO_NEXT,
+          payload: {
+            ...payload,
+            skipSize: VERTICAL_SKIP
+          }
         });
         event.preventDefault();
       } else if (event.key === "Home") {

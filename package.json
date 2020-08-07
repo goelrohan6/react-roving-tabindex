@@ -1,8 +1,8 @@
 {
-  "name": "react-roving-tabindex",
-  "version": "0.7.2",
+  "name": "react-roving-tabindex-grid",
+  "version": "0.7.9",
   "description": "React implementation of a roving tabindex",
-  "author": "stevejay",
+  "author": "rohan",
   "license": "MIT",
   "keywords": [
     "hooks",
@@ -11,7 +11,7 @@
     "tab",
     "tabindex"
   ],
-  "repository": "stevejay/react-roving-tabindex",
+  "repository": "goelrohan6/react-roving-tabindex",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
   "jsnext:main": "dist/index.es.js",

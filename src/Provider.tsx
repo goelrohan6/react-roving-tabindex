@@ -47,11 +47,11 @@ export type Action =
     }
   | {
       type: ActionTypes.TAB_TO_PREVIOUS;
-      payload: { id: TabStop["id"] };
+      payload: { id: TabStop["id"]; skipSize: number };
     }
   | {
       type: ActionTypes.TAB_TO_NEXT;
-      payload: { id: TabStop["id"] };
+      payload: { id: TabStop["id"]; skipSize: number };
     }
   | {
       type: ActionTypes.CLICKED;
@@ -139,6 +139,7 @@ export function reducer(state: State, action: Action): State {
     case ActionTypes.TAB_TO_PREVIOUS:
     case ActionTypes.TAB_TO_NEXT: {
       const id = action.payload.id;
+      const skipSize = action.payload.skipSize;
       const index = findIndex(state.tabStops, (tabStop) => tabStop.id === id);
 
       if (index === -1) {
@@ -146,14 +147,16 @@ export function reducer(state: State, action: Action): State {
         return state;
       }
 
-      const newIndex =
-        action.type === ActionTypes.TAB_TO_PREVIOUS
-          ? index <= 0
-            ? state.tabStops.length - 1
-            : index - 1
-          : index >= state.tabStops.length - 1
-          ? 0
-          : index + 1;
+      let newIndex = index;
+      if (action.type === ActionTypes.TAB_TO_PREVIOUS) {
+        if (index >= skipSize) {
+          newIndex = index - skipSize;
+        }
+      } else {
+        if (index < state.tabStops.length - skipSize) {
+          newIndex = index + skipSize;
+        }
+      }
 
       return {
         ...state,
