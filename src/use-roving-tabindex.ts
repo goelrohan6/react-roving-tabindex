@@ -68,9 +68,9 @@ export default function useRovingTabIndex(
       context.state.direction === "horizontal" ||
       context.state.direction === "vertical"
     ) {
-      if (event.key === "ArrowLeft") {
+      if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
         return TabDirection.Previous;
-      } else if (event.key === "ArrowRight") {
+      } else if (event.key === "ArrowRight" || event.key === "ArrowDown") {
         return TabDirection.Next;
       }
     }
