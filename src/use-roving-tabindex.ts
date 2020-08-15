@@ -66,7 +66,7 @@ export default function useRovingTabIndex(
   ): TabDirection | null => {
     if (
       context.state.direction === "horizontal" ||
-      context.state.direction === "both"
+      context.state.direction === "vertical"
     ) {
       if (event.key === "ArrowLeft") {
         return TabDirection.Previous;
@@ -74,10 +74,12 @@ export default function useRovingTabIndex(
         return TabDirection.Next;
       }
     }
-    if (
-      context.state.direction === "vertical" ||
-      context.state.direction === "both"
-    ) {
+    if (context.state.direction === "both") {
+      if (event.key === "ArrowLeft") {
+        return TabDirection.Previous;
+      } else if (event.key === "ArrowRight") {
+        return TabDirection.Next;
+      }
       if (event.key === "ArrowUp") {
         return TabDirection.Up;
       } else if (event.key === "ArrowDown") {
